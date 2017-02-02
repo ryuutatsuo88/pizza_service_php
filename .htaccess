@@ -1,0 +1,11 @@
+Options +FollowSymLinks
+
+RewriteEngine On
+
+#local path
+#RewriteBase /GitRepositories/pizza_service_php/
+# server path
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
