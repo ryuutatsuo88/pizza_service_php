@@ -1,6 +1,6 @@
 <?php
 define( '_ROOT', dirname(__FILE__) . '');
-//require_once("models/config.php");
+require_once("models/config.php");
 require 'Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
