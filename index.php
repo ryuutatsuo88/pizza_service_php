@@ -10,7 +10,12 @@ $app = new \Slim\Slim();
 //$app->config('debug', false);
 //$app->view(new \Slim\jsonAPI\JsonApiView());
 $app->get('/pizzas', function () use ($app){
-	 echo "pizzas get";
+
+	global $mysqli;
+
+	$result = $mysqli->query("SELECT * FROM pizza LIMIT 32 desc");
+
+  print_r($result);
 });
 
 $app->post('/pizzas', function () use ($app){
