@@ -27,23 +27,22 @@ $app->get('/pizzas', function () use ($app){
 
 $app->post('/pizzas', function () use ($app){
 	 $body_params = json_decode($app->request->getBody());
-	 echo "pizzas post";
 	 
 	 if ($body_params->pizza !== NULL && $body_params->pizza->name !==null) {
 	 	global $mysqli;
 	 	
-	 	 $result = $mysqli->query("SELECT name FROM pizza WHERE name = " . $body_params->pizza->name);
+	 	 $result = $mysqli->query("SELECT * FROM pizza WHERE name = " . $body_params->pizza->name);
 
- 		 if ($result->num_rows == 0) {
- 		 	 $sql = "INSERT INTO pizza (name, description) VALUES ('". $body_params->pizza->name ."', '" . $body_params->pizza->description . "')";
+ 		 if ($result->num_rows > 0) {
+ 		 	 echo "Pizza already exists.";
+ 		 } else {
+ 		 	$sql = "INSERT INTO pizza (name, description) VALUES ('". $body_params->pizza->name ."', '" . $body_params->pizza->description . "')";
 
 			 if ($mysqli->query($sql) === TRUE) {
 				 echo "New record created successfully";
 			 } else {
 				 echo "Error: " . $sql . "<br>" . $mysqli->error;
 			 }
- 		 } else {
- 		 	echo "Pizza already exists.";
  		 }
 	 	$mysqli->close();
 	 } else {
