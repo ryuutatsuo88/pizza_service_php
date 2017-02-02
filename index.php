@@ -28,6 +28,28 @@ $app->get('/pizzas', function () use ($app){
 $app->post('/pizzas', function () use ($app){
 	 $body_params = json_decode($app->request->getBody());
 	 echo "pizzas post";
+	 
+	 if ($body_params->pizza !== NULL && $body_params->pizza->name !==null) {
+	 	global $mysqli;
+	 	
+	 	 $result = $mysqli->query("SELECT name FROM pizza WHERE name = " . $body_params->pizza->name);
+
+ 		 if ($result->num_rows == 0) {
+ 		 	 $sql = "INSERT INTO pizza (name, description) VALUES ('". $body_params->pizza->name ."', '" . $body_params->pizza->description . "')";
+
+			 if ($mysqli->query($sql) === TRUE) {
+				 echo "New record created successfully";
+			 } else {
+				 echo "Error: " . $sql . "<br>" . $mysqli->error;
+			 }
+ 		 } else {
+ 		 	echo "Pizza already exists.";
+ 		 }
+	 	$mysqli->close();
+	 } else {
+	 	echo "no pizza created";
+	 }
+	
 });
 
 $app->get('/toppings', function () use ($app){
