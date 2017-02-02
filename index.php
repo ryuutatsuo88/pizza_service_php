@@ -31,7 +31,7 @@ $app->post('/pizzas', function () use ($app){
 	 if ($body_params->pizza !== NULL && $body_params->pizza->name !==null) {
 	 	global $mysqli;
 	 	
-	 	 $result = $mysqli->query("SELECT * FROM pizza WHERE name = " . $body_params->pizza->name);
+	 	 $result = $mysqli->query("SELECT * FROM pizza WHERE name = '" . $body_params->pizza->name . "'");
 
  		 if ($result->num_rows > 0) {
  		 	 echo "Pizza already exists.";
