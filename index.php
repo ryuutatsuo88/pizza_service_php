@@ -54,11 +54,11 @@ $app->get('/pizzas/:pizza_id/toppings', function ($pizza_id) {
 		
 	global $mysqli;
 
-	$result = $mysqli->query("SELECT * FROM topping_on_pizza WHERE pizzaId=" . $pizza_id);
+	$result = $mysqli->query("SELECT * FROM topping_on_pizza WHERE pizzaId = " . $pizza_id);
 
 	if ($result->num_rows > 0) {
 		// output data of each row
-		echo "pizza id " . $pizza_id . " has these toppings<br>"
+		echo "pizza id " . $pizza_id . " has these toppings<br>";
 		while($row = $result->fetch_assoc()) {
 			echo "topping id: " . $row["toppingId"]. "<br>";
 		}
