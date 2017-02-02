@@ -51,16 +51,32 @@ $app->post('/toppings', function () use ($app){
 });
 
 $app->get('/pizzas/:pizza_id/toppings', function ($pizza_id) {
-		echo "pizza id, $pizza_id";
+		
+	global $mysqli;
+
+	$result = $mysqli->query("SELECT * FROM topping_on_pizza WHERE pizzaId=" . $pizza_id);
+
+	if ($result->num_rows > 0) {
+		// output data of each row
+		echo "pizza id " . $pizza_id . " has these toppings<br>"
+		while($row = $result->fetch_assoc()) {
+			echo "topping id: " . $row["toppingId"]. "<br>";
+		}
+	}
+
+	$mysqli->close();
+		
 });
 
 $app->post('/pizzas/:pizza_id/toppings', function () use ($app){
 
 	 $body_params = json_decode($app->request->getBody());
 
+	 // all this crap because I can't access the pizza_id from $app 	
 	 $arr = explode("pizzas/" ,$app->request->getPath());
 	 $arr2 = explode("/toppings" ,$arr[1]);
 	 $pizza_id = $arr2[0];
+	 
 	 $name = $body_params->topping_id->name;
 	 echo "pizza id, $pizza_id and $name";
 });
