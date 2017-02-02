@@ -13,9 +13,11 @@ $app->get('/pizzas', function () use ($app){
 
 	global $mysqli;
 
-	$result = $mysqli->query("SELECT * FROM pizza LIMIT 32 desc");
+	$result = $mysqli->query("SELECT * FROM pizza LIMIT 32");
 
   var_dump($result);
+
+	$mysqli->close();
 });
 
 $app->post('/pizzas', function () use ($app){
