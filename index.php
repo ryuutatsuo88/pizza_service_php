@@ -13,9 +13,14 @@ $app->get('/pizzas', function () use ($app){
 
 	global $mysqli;
 
-	$result = $mysqli->query("SELECT * FROM pizza LIMIT 32");
+	$result = $mysqli->query("SELECT * FROM pizza");
 
-  var_dump($result);
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["id"]. " - Pizza: " . $row["name"]. " " . $row["description"]. "<br>";
+    }
+	}
 
 	$mysqli->close();
 });
@@ -26,7 +31,18 @@ $app->post('/pizzas', function () use ($app){
 });
 
 $app->get('/toppings', function () use ($app){
-	 echo "toppings get";
+	global $mysqli;
+
+ $result = $mysqli->query("SELECT * FROM topping");
+
+ if ($result->num_rows > 0) {
+		// output data of each row
+		while($row = $result->fetch_assoc()) {
+				echo "id: " . $row["id"]. " - Topping: " . $row["name"]. "<br>";
+		}
+ }
+
+ $mysqli->close();
 });
 
 $app->post('/toppings', function () use ($app){
