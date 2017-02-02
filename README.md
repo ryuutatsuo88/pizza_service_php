@@ -36,7 +36,7 @@ POST pizzas/:id/toppings    # Add a topping to an existing pizza
 
 *Example curl command to create a pizza:*
 ```
-curl -H "Content-Type: application/json" -H "Accept: application/json" https://pizzaserver.herokuapp.com/pizzas --data '{"pizza": {"name": "belleboche", "description": "Pepperoni, Sausage, Mushroom"}}'
+curl -H "Content-Type: application/json" -H "Accept: application/json" https://pizza-service-php.herokuapp.com/pizzas --data '{"pizza": {"name": "belleboche", "description": "Pepperoni, Sausage, Mushroom"}}'
 ```
 
 Pizza
