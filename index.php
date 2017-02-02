@@ -111,14 +111,36 @@ $app->get('/pizzas/:pizza_id/toppings', function ($pizza_id) {
 $app->post('/pizzas/:pizza_id/toppings', function () use ($app){
 
 	 $body_params = json_decode($app->request->getBody());
-
-	 // all this crap because I can't access the pizza_id from $app 	
-	 $arr = explode("pizzas/" ,$app->request->getPath());
-	 $arr2 = explode("/toppings" ,$arr[1]);
-	 $pizza_id = $arr2[0];
 	 
-	 $name = $body_params->topping_id->name;
-	 echo "pizza id, $pizza_id and $name";
+	 if ($body_params->topping_id !== NULL) {
+	 	
+	 	 // all this crap because I can't access the pizza_id from $app 	
+		 $arr = explode("pizzas/" ,$app->request->getPath());
+		 $arr2 = explode("/toppings" ,$arr[1]);
+		 $pizza_id = $arr2[0];
+	 	 $topping_id = $body_params->topping_id;
+	 	
+	 	 global $mysqli;
+
+		 $result = $mysqli->query("SELECT * FROM topping_on_pizza WHERE pizzaId = " . $pizza_id . " && toppingId = " . $topping_id);
+		 
+		 if ($result->num_rows > 0) {
+		 	echo "that topping is already on pizza";
+		 } else {
+		 	
+		 	$sql = "INSERT INTO topping_on_pizza (pizzaId, toppingId) VALUES (". $pizza_id .",". $topping_id .")";
+
+			 if ($mysqli->query($sql) === TRUE) {
+				 echo "New record created successfully";
+			 } else {
+				 echo "Error: " . $sql . "<br>" . $mysqli->error;
+			 }
+		 }
+		 
+		 $mysqli->close();
+	 } else {
+	 	echo "topping not added to pizza";
+	 }
 });
 
 /****** Run App  *******/
